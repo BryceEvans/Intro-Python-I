@@ -33,6 +33,8 @@ from datetime import datetime
 print('num of arguments:', len(sys.argv))
 print( sys.argv[0] )
 
+format_err = print("Month and year must be entered as integers in the following format: MM [YYYY]")
+
 if len(sys.argv) == 1:
     m = datetime.now().month
     print(m)
@@ -46,26 +48,31 @@ if len(sys.argv) == 1:
 
 elif len(sys.argv) == 2:
     m = int(sys.argv[1])
-    y = int(sys.argv[2])
+    y = sys.argv[2]
     print(calendar.month(y, m))
 
 #  - If the user specifies two arguments, assume they passed in
 #    both the month and the year. Render the calendar for that 
 #    month and year.
 
+elif len(sys.argv) == 3:
+    m = int(sys.argv[1])
+    y = int(sys.argv[2])
+    print(calendar.month(y, m))
+
+# - Otherwise, print a usage statement to the terminal indicating
+#    the format that your program expects arguments to be given.
+#    Then exit the program.
+
 else:
-    exit()
+    if len(sys.argv[2]) == 6:
+        if sys.argv[1].isdigit() and sys.argv[2][1:5].isdigit():
+            m = int(sys.argv[1])
+            y = int(sys.argv[2][1:5])
+        else:
+            format_err
+            exit()
+    else:
+        format_err
+        exit()
 
-
-
-# else:
-#     if len(sys.argv[2]) == 6:
-#     if sys.argv[1].isdigit() and sys.argv[2][1:5].isdigit():
-#       m = int(sys.argv[1])
-#       y = int(sys.argv[2][1:5])
-#     else:
-#       format_err
-#       exit()
-#   else:
-#     format_err
-#     exit()
